@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import PnL from "./components/PnL";
 import Planner from "./components/pages/Planner";
 import { TimeProvider } from "./components/plannerComponents/pomodoro/TimerProvider";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
