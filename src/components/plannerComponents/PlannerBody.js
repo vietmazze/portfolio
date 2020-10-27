@@ -111,7 +111,7 @@ const PlannerBody = () => {
       .then((query) => {
         query.forEach((doc) => {
           doc.ref.update({
-            extra: " ",
+            extra: "Extra notes...",
           });
         });
       });
