@@ -25,7 +25,7 @@ const Pomodoro = () => {
             currentTime: timer.time.currentTime - 1,
           },
         });
-      }, 10);
+      }, 1000);
       return () => clearInterval(interval);
     } else if (timer.time.currentTime === 0) {
       beep.current.play();

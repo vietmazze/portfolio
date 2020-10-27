@@ -19,10 +19,10 @@ export const TimeProvider = (props) => {
   // });
 
   const [timer, setTimer] = useState({
-    session: 120,
-    break: 120,
+    session: 1500,
+    break: 300,
     mode: "session",
-    time: { currentTime: 120, startingTime: 120 },
+    time: { currentTime: 1500, startingTime: 300 },
     active: false,
     name: "Pomodoro Timer",
     progress: 0,

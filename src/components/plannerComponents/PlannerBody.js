@@ -90,8 +90,8 @@ const PlannerBody = () => {
     return () => unsub();
   }, []);
 
-  async function refreshData(e) {
-    const unsub = await firebase
+  function refreshData(e) {
+    const unsub = firebase
       .firestore()
       .collection("planner")
       .get()
