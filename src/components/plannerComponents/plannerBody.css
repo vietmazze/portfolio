@@ -154,7 +154,7 @@
   .planner-label {
     padding-left: 0.5rem;
     font-size: 2rem;
-    color: black;
+    color: rgb(255, 255, 255);
     transform: translateY(-4rem);
     pointer-events: none;
     font-style: italic;
