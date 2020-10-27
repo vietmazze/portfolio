@@ -1,10 +1,11 @@
 import React from "react";
+import PlannerBody from "../plannerComponents/PlannerBody";
 import PnL from "../PnL";
 function Home() {
   return (
     <div>
       <>
-        <PnL />
+        <PlannerBody />
       </>
     </div>
   );
