@@ -1,0 +1,59 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.counter {
+  position: absolute;
+  z-index: 2;
+  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.counterType {
+  font-size: 1rem;
+  color: orange;
+}
+
+#time-left {
+  font-family: "Open Sans", sans-serif;
+  color: white;
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .counter {
+    position: absolute;
+    z-index: 2;
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .counterType {
+    font-size: 10px;
+    color: rgb(184, 177, 177);
+    font-weight: bold;
+  }
+
+  #time-left {
+    font-family: "Open Sans", sans-serif;
+  }
+}
