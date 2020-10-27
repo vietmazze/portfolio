@@ -13,10 +13,10 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <Route path="portfolio/" exact component={Home} />
-          <Route path="portfolio/pnl" exact component={PnL} />
+          <Route path="/" exact component={PnL} />
+          <Route path="/pnl" exact component={PnL} />
           <Route
-            path="portfolio/planner"
+            path="/planner"
             render={(props) => (
               <TimeProvider>
                 <Planner {...props} />
