@@ -5,13 +5,16 @@ import Pomodoro from "./PlannerPomo";
 import { TimeContext, TimeProvider } from "./pomodoro/TimerProvider";
 import { Progress } from "./pomodoro/Progress";
 import firebase from "../../services/firebase";
+import axios from "axios";
+import { findRenderedComponentWithType } from "react-dom/test-utils";
 
 const PlannerBody = () => {
   const [timer, setTimer, currentProgress] = useContext(TimeContext);
   const [planner, setPlanner] = useState([]);
   const [note, setNote] = useState([]);
   const [quotes, setQuote] = useState([]);
-
+  const [ip, setIp] = useState();
+  getIP();
   const onChangeProgress = (currentId, newProgress) => {
     const activeProgress = planner.map((item) => ({
       id: item.id,
@@ -19,7 +22,7 @@ const PlannerBody = () => {
       progress: item.id === currentId ? newProgress : item.progress,
       title: item.title,
     }));
-
+    localStorage.setItem("planner", activeProgress);
     firebase
       .firestore()
       .collection("planner")
@@ -46,10 +49,18 @@ const PlannerBody = () => {
       });
   };
 
+  async function getIP() {
+    const response = await axios(
+      "https://geolocation-db.com/json/7733a990-ebd4-11ea-b9a6-2955706ddbf3"
+    );
+    localStorage.setItem("address", response.data.postal);
+  }
+
   useEffect(() => {
+    const ip = localStorage.getItem("address");
     const unsubscribe = firebase
       .firestore()
-      .collection("planner")
+      .collection(ip == "33781" ? "planner" : "ngan")
       .onSnapshot((snapshot) => {
         const prevPlanner = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -57,7 +68,6 @@ const PlannerBody = () => {
         }));
         setPlanner(prevPlanner);
       });
-
     return () => unsubscribe();
   }, []);
   useEffect(() => {
