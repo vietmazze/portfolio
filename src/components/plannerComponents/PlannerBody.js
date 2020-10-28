@@ -1,30 +1,20 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../plannerComponents/plannerBody.css";
 import { PlannerQuote } from "./plannerQuote";
 import Pomodoro from "./PlannerPomo";
-import { TimeContext, TimeProvider } from "./pomodoro/TimerProvider";
 import { Progress } from "./pomodoro/Progress";
 import firebase from "../../services/firebase";
 import axios from "axios";
-import { findRenderedComponentWithType } from "react-dom/test-utils";
 
 const PlannerBody = () => {
-  const [timer, setTimer, currentProgress] = useContext(TimeContext);
   const [planner, setPlanner] = useState([]);
   const [note, setNote] = useState([]);
-  const [quotes, setQuote] = useState([]);
-  const [ip, setIp] = useState();
-  getIP();
+
   const onChangeProgress = (currentId, newProgress) => {
-    const activeProgress = planner.map((item) => ({
-      id: item.id,
-      log: item.log,
-      progress: item.id === currentId ? newProgress : item.progress,
-      title: item.title,
-    }));
+    var address = localStorage.getItem("address");
     firebase
       .firestore()
-      .collection(ip == "33781" ? "planner" : "ngan")
+      .collection(address === "33781" ? "planner" : "ngan")
       .doc(currentId.toString())
       .get()
       .then((query) => {
@@ -48,16 +38,16 @@ const PlannerBody = () => {
       });
   };
 
-  async function getIP() {
+  async function getAddress() {
     const response = await axios("https://geolocation-db.com/json/");
     localStorage.setItem("address", response.data.postal);
   }
-
+  getAddress();
   useEffect(() => {
-    const ip = localStorage.getItem("address");
+    const address = localStorage.getItem("address");
     const unsubscribe = firebase
       .firestore()
-      .collection(ip == "33781" ? "planner" : "ngan")
+      .collection(address === "33781" ? "planner" : "ngan")
       .onSnapshot((snapshot) => {
         const prevPlanner = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -84,7 +74,7 @@ const PlannerBody = () => {
   }, []);
 
   function refreshData(e) {
-    const unsub = firebase
+    firebase
       .firestore()
       .collection("planner")
       .get()
@@ -127,7 +117,7 @@ const PlannerBody = () => {
             </button>
           </div>
           <div className="planner-quote">
-            <PlannerQuote quotes={quotes} />
+            <PlannerQuote />
           </div>
           <div className="planner-split">
             {/* -- Planner section */}

@@ -1,7 +1,7 @@
 import React from "react";
 import "./plannerBody.css";
 
-export const PlannerQuote = ({ quotes }) => {
+export const PlannerQuote = () => {
   return (
     <div className="planner-quote-body">
       <h2 className="planner-quote-h2">
