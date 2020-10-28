@@ -22,10 +22,9 @@ const PlannerBody = () => {
       progress: item.id === currentId ? newProgress : item.progress,
       title: item.title,
     }));
-    localStorage.setItem("planner", activeProgress);
     firebase
       .firestore()
-      .collection("planner")
+      .collection(ip == "33781" ? "planner" : "ngan")
       .doc(currentId.toString())
       .get()
       .then((query) => {
@@ -66,20 +65,6 @@ const PlannerBody = () => {
         }));
         setPlanner(prevPlanner);
       });
-    return () => unsubscribe();
-  }, []);
-  useEffect(() => {
-    const unsubscribe = firebase
-      .firestore()
-      .collection("quote")
-      .onSnapshot((snapshot) => {
-        const quotes = snapshot.docs.map((doc) => ({
-          author: doc.id,
-          ...doc.data(),
-        }));
-        setQuote(quotes);
-      });
-
     return () => unsubscribe();
   }, []);
 
