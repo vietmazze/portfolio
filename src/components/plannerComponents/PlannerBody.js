@@ -50,9 +50,7 @@ const PlannerBody = () => {
   };
 
   async function getIP() {
-    const response = await axios(
-      "https://geolocation-db.com/json/7733a990-ebd4-11ea-b9a6-2955706ddbf3"
-    );
+    const response = await axios("https://geolocation-db.com/json/");
     localStorage.setItem("address", response.data.postal);
   }
 
