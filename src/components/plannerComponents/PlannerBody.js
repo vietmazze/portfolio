@@ -9,7 +9,7 @@ import axios from "axios";
 const PlannerBody = () => {
   const [planner, setPlanner] = useState([]);
   const [note, setNote] = useState([]);
-
+  const [isLoading, setLoading] = useState(false);
   const onChangeProgress = (currentId, newProgress) => {
     var address = localStorage.getItem("address");
     firebase
@@ -22,6 +22,18 @@ const PlannerBody = () => {
       });
   };
 
+  const onChangePlanner = (currentId, newProgress) => {
+    var currPlanner = planner;
+
+    const newPlanner = currPlanner.map((item) => ({
+      id: item.id,
+      log: item.log,
+      progress: item.id === currentId ? newProgress : item.progress,
+      title: item.title,
+    }));
+    setPlanner(newPlanner);
+  };
+
   const onNoteChange = (currentId, newNote) => {
     const activeNote = note.map((item) => ({
       id: item.id,
@@ -31,7 +43,7 @@ const PlannerBody = () => {
     firebase
       .firestore()
       .collection("note")
-      .doc(currentId)
+      .doc(String(currentId))
       .get()
       .then((query) => {
         query.ref.update({ extra: newNote });
@@ -42,8 +54,9 @@ const PlannerBody = () => {
     const response = await axios("https://geolocation-db.com/json/");
     localStorage.setItem("address", response.data.postal);
   }
-  getAddress();
+
   useEffect(() => {
+    getAddress();
     const address = localStorage.getItem("address");
     const unsubscribe = firebase
       .firestore()
@@ -74,7 +87,7 @@ const PlannerBody = () => {
   }, []);
 
   function refreshData(e) {
-    firebase
+    const unsub = firebase
       .firestore()
       .collection("planner")
       .get()
@@ -98,7 +111,7 @@ const PlannerBody = () => {
           });
         });
       });
-    window.location.reload();
+    return () => unsub();
   }
 
   return (
@@ -128,7 +141,8 @@ const PlannerBody = () => {
                     <textarea
                       className="planner-textarea"
                       type="text"
-                      defaultValue={plan.progress}
+                      value={plan.progress}
+                      onChange={(e) => onChangePlanner(plan.id, e.target.value)}
                       onBlur={(e) => onChangeProgress(plan.id, e.target.value)}
                       required></textarea>
                     <label className="planner-label">{plan.title}</label>

@@ -25,7 +25,7 @@ const Pomodoro = () => {
             currentTime: timer.time.currentTime - 1,
           },
         });
-      }, 1000);
+      }, 10);
       return () => clearInterval(interval);
     } else if (timer.time.currentTime === 0) {
       beep.current.play();
@@ -56,12 +56,11 @@ const Pomodoro = () => {
         firebase
           .firestore()
           .collection("planner")
-          .doc(currIndex)
+          .doc(String(currIndex))
           .get()
           .then((query) => {
             const currLog = query.data().log;
             query.ref.update({ log: currLog >= 4 ? 0 : currLog + 1 });
-            console.log("task progress updated");
           });
       }
       //    }, 2500);
